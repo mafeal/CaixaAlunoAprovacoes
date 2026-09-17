@@ -1,12 +1,18 @@
 ﻿using CaixaAlunoAprovacoesApp.DTO;
 using System.Collections;
+using System.ComponentModel.DataAnnotations;
 
 namespace CaixaAlunoAprovacoesApp
 {
     public class Turma : IEnumerable<Aluno>
     {
         private List<Aluno> alunos = [];
+        public int Ano { get; private set; }
         public string Disciplina { get; }
+
+        public Turma()
+        {
+        }
 
         public Turma(string disciplina)
         {
@@ -23,9 +29,14 @@ namespace CaixaAlunoAprovacoesApp
             return this.GetEnumerator();
         }
 
-        public void Matricular(IEnumerable<Aluno> alunos)
+        public void Matricular([Required]IEnumerable<Aluno> alunos)
         {
             this.alunos.AddRange(alunos);
+        }
+
+        private int QuantidadeDeAlunos()
+        {
+            return alunos.Count;
         }
     }
 }
