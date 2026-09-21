@@ -6,7 +6,8 @@ namespace CaixaAlunoAprovacoesApp
     {
         static void Main(string[] argumentos)
         {
-            var nomeCalculadora = argumentos[0];
+            //CalculadoraMediaAritmetica --> Aritmetica
+            var nomeCalculadora = argumentos[0]; 
             var nomeReader = argumentos[1];
 
             var calculadora = CalculadoraMediasFactory.Create(nomeCalculadora);

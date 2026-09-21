@@ -1,21 +1,28 @@
 ﻿using CaixaAlunoAprovacoesApp.Calculadoras;
+using CaixaAlunoAprovacoesApp.Readers;
+using System.Reflection;
 
 namespace CaixaAlunoAprovacoesApp.Factories
 {
     public static class CalculadoraMediasFactory
     {
+        private static Dictionary<string, Type> tipos = [];
+        static CalculadoraMediasFactory()
+        {
+            tipos = Assembly.GetExecutingAssembly()
+                .GetTypes()
+                .Where(x => x.IsAssignableTo(typeof(ICalculadoraMedia)) &&
+                            !x.IsInterface &&
+                            !x.IsAbstract)
+            .ToDictionary(x => x.GetCustomAttribute<NomeCalculadoraAttribute>()!.Algoritmo , x => x, StringComparer.OrdinalIgnoreCase);
+        }
+
         public static ICalculadoraMedia Create(string nome)
         {
-            if (nome == nameof(CalculadoraMediaAritmetica))
-                return new CalculadoraMediaAritmetica();
+            tipos.TryGetValue(nome, out var tipo);
+            var instancia = Activator.CreateInstance(tipo!) as ICalculadoraMedia;
 
-            else if (nome == nameof(CalculadoraMediaPonderada))
-                return new CalculadoraMediaPonderada();
-
-            else if (nome == nameof(CalculadoraMediaHarmonica))
-                return new CalculadoraMediaHarmonica();
-
-            throw new Exception("Algorimo não suportado");
+            return instancia!;
         }
     }
 }

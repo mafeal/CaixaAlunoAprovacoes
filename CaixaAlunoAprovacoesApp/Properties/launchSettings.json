@@ -2,7 +2,7 @@
   "profiles": {
     "CaixaAlunoAprovacoesApp": {
       "commandName": "Project",
-      "commandLineArgs": "CalculadoraMediaHarmonica DatabaseAlunoReader"
+      "commandLineArgs": "ponderada CSV"
     }
   }
 }
